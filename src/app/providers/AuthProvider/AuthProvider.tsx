@@ -1,0 +1,104 @@
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { authApi } from "@app/api/auth";
+import { User } from "@app/types/user";
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (email: string, password: string, name?: string) => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const initializeUser = async () => {
+      setIsLoading(true);
+      try {
+        const currentUser = await authApi.getCurrentUser();
+        setUser(currentUser);
+      } catch (e) {
+        setUser(null);
+      }
+      setIsLoading(false);
+    };
+    initializeUser();
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const loggedInUser = await authApi.login(email, password);
+      setUser(loggedInUser);
+      localStorage.setItem("token", "mock-token"); // В реальном API — сохранять реальный токен
+    } catch (e: any) {
+      setError(e.message || "Ошибка входа");
+      setUser(null);
+    }
+    setIsLoading(false);
+  };
+
+  const logout = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await authApi.logout();
+      setUser(null);
+      localStorage.removeItem("token");
+    } catch (e: any) {
+      setError(e.message || "Ошибка выхода");
+    }
+    setIsLoading(false);
+  };
+
+  const register = async (email: string, password: string, name?: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const registeredUser = await authApi.register(email, password, name);
+      setUser(registeredUser);
+      localStorage.setItem("token", "mock-token"); // В реальном API — сохранять реальный токен
+    } catch (e: any) {
+      setError(e.message || "Ошибка регистрации");
+      setUser(null);
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated: !!user,
+        isLoading,
+        error,
+        login,
+        logout,
+        register,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
+};

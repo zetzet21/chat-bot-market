@@ -3,16 +3,15 @@ import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { TextField } from "@shared/ui/TextField/TextField";
+import { Text } from "@shared/ui/Text/Text";
+import { Title } from "@shared/ui/Title/Title";
 import {
   PageContainer,
   LeftPanel,
   RightPanel,
   Logo,
-  Title,
-  Subtitle,
   Form,
   Footer,
-  ErrorText,
 } from "./AuthPage.styled";
 
 // TODO: заменить на ваш SVG/лого
@@ -52,12 +51,18 @@ export const AuthPage = React.memo(function AuthPage() {
         <Logo>
           <LogoIcon />
         </Logo>
-        <Title>Добро пожаловать!</Title>
+        <Title as="h2" dimension="xl" weight="semibold" color="dark">
+          Добро пожаловать!
+        </Title>
         {isRegister ? null : (
-          <Subtitle>
+          <Text
+            dimension="l"
+            color="secondary"
+            style={{ marginBottom: "24px", textAlign: "center" }}
+          >
             Войдите в аккаунт для полного доступа к покупке чат ботов для вашего
             бизнеса
-          </Subtitle>
+          </Text>
         )}
         <Form onSubmit={handleSubmit}>
           {isRegister && (
@@ -98,7 +103,13 @@ export const AuthPage = React.memo(function AuthPage() {
             />
           )}
           {(error || localError) && (
-            <ErrorText>{error || localError}</ErrorText>
+            <Text
+              dimension="m"
+              color="danger"
+              style={{ marginBottom: "8px", textAlign: "center" }}
+            >
+              {error || localError}
+            </Text>
           )}
           <Button
             label={isRegister ? "Зарегистрироваться" : "Войти"}
@@ -122,15 +133,13 @@ export const AuthPage = React.memo(function AuthPage() {
           />
         </div>
         <Footer>
-          Регистрируясь вы принимаете
-          <br />
-          Политику конфиденциальности
+          <Text dimension="s" color="secondary" style={{ lineHeight: "1.4" }}>
+            Регистрируясь вы принимаете
+            <br />
+            Политику конфиденциальности
+          </Text>
         </Footer>
       </LeftPanel>
-      <RightPanel>
-        {/* Здесь можно разместить декоративный фон/иллюстрацию */}
-        {/* <img src="/decor.png" alt="decor" /> */}
-      </RightPanel>
     </PageContainer>
   );
 });

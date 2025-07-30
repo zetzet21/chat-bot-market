@@ -7,8 +7,7 @@ const BotDetailsPage = lazy(() => import("@pages/BotDetailsPage"));
 const AuthPage = lazy(() => import("@pages/AuthorizationPage/AuthPage"));
 const HomePage = lazy(() => import("@pages/HomePage/HomePage"));
 const CatalogPage = lazy(() => import("@pages/CatalogPage"));
-// const DashboardPage = lazy(() => import("@pages/DashboardPage"));
-// const NotFoundPage = lazy(() => import("@pages/NotFoundPage"));
+const CartPage = lazy(() => import("@pages/CartPage"));
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +36,17 @@ export const router = createBrowserRouter([
         ),
         handle: {
           crumb: (data: { bot: { name: string } }) => data.bot.name,
+        },
+      },
+      {
+        path: "cart",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <CartPage />
+          </Suspense>
+        ),
+        handle: {
+          crumb: () => "Корзина",
         },
       },
       {

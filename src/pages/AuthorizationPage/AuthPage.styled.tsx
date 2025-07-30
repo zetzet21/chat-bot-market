@@ -40,21 +40,6 @@ export const Logo = styled.div`
   }
 `;
 
-export const Title = styled.h2`
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 8px;
-  text-align: center;
-`;
-
-export const Subtitle = styled.p`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.GrayDark};
-  margin-bottom: 24px;
-  text-align: center;
-`;
-
 export const Form = styled.form`
   width: 100%;
   max-width: 340px;
@@ -68,14 +53,5 @@ export const Footer = styled.div`
   bottom: 16px;
   left: 0;
   width: 100%;
-  text-align: center;
-  font-size: 0.85rem;
-  color: ${({ theme }) => theme.colors.GrayLight};
-`;
-
-export const ErrorText = styled.div`
-  color: ${({ theme }) => theme.colors.error};
-  font-size: 0.95rem;
-  margin-bottom: 8px;
   text-align: center;
 `;

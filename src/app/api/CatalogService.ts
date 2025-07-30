@@ -9,7 +9,7 @@ export interface BotDetails {
   rating: number;
   description: string;
   features: string;
-  integrations: string;
+  integrations: string[];
   advantages: string;
   tech: string;
   usage: string;
@@ -80,8 +80,7 @@ export class CatalogService {
             "Автоматизация процесса сбора контактной информации и первичных консультаций с клиентами.",
           features:
             "Запрос контактных данных, сбор информации о потребностях клиентов, предложение услуг.",
-          integrations:
-            "CRM-системы, инструменты для рассылок (например, Mailchimp), мессенджеры (Telegram, WhatsApp).",
+          integrations: ["crm", "mailchimp", "telegram", "whatsapp"],
           advantages:
             "Увеличение конверсии, сокращение времени на сбор информации, повышение качества обработки лидов.",
           tech: "Лёгкость в настройке, интеграция с маркетинговыми инструментами, возможность автоматической отправки уведомлений.",

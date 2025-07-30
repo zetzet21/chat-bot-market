@@ -1,3 +1,4 @@
+import React from "react";
 import {
   HeaderContainer,
   Logo,
@@ -10,6 +11,8 @@ import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useCart } from "@app/providers/CartProvider";
 
 // TODO: Replace with your actual SVG icon import
 const MenuIcon = () => (
@@ -26,9 +29,10 @@ const MenuIcon = () => (
   </svg>
 );
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { totalItems } = useCart();
 
   return (
     <HeaderContainer>

@@ -10,7 +10,7 @@ export const PaginationContainer = styled.div`
 export const PaginationButton = styled.button`
   padding: 8px 16px;
   border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.colors.gray100 || "#ccc"};
+  border: 1px solid ${({ theme }) => theme.colors.GrayLight || "#ccc"};
   background: ${({ theme }) => theme.colors.white || "#fff"};
   color: ${({ theme }) => theme.colors.text || "#222"};
   font-size: 16px;
@@ -20,9 +20,4 @@ export const PaginationButton = styled.button`
     opacity: 0.5;
     cursor: not-allowed;
   }
-`;
-
-export const PageNumber = styled.span`
-  font-size: 18px;
-  font-weight: 500;
 `;

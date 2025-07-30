@@ -11,7 +11,7 @@ export const theme = {
     text: "#1e293b",
     error: "#dc2626",
     // Основные цвета
-    Black: "#211922",
+    Black: "#000000",
     GrayDark: "#3E3E3E",
     Gray38: "#00000061",
     Gray20: "#00000033",
@@ -38,6 +38,23 @@ export const theme = {
     sm: "576px",
     md: "768px",
     lg: "992px",
+  },
+  borderRadius: {
+    sm: "4px",
+    md: "8px",
+    lg: "12px",
+  },
+  typography: {
+    fontSize: {
+      sm: "0.875rem",
+      md: "1rem",
+      lg: "1.125rem",
+      xl: "1.25rem",
+      xxl: "1.5rem",
+    },
+  },
+  container: {
+    maxWidth: "1200px",
   },
 };
 

@@ -5,9 +5,8 @@ import { Text } from "@shared/ui/Text/Text";
 import { Title } from "@shared/ui/Title/Title";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
+import { PageWrapper, ContentWrapper } from "@shared/ui/PageWrapper";
 import {
-  AnalyticsContainer,
-  ContentWrapper,
   Header,
   BackButton,
   MetricsGrid,
@@ -27,7 +26,7 @@ export const BotAnalyticsPage: React.FC = () => {
 
   if (!bot) {
     return (
-      <AnalyticsContainer>
+      <PageWrapper>
         <ContentWrapper>
           <Title>Бот не найден</Title>
           <Button
@@ -37,12 +36,12 @@ export const BotAnalyticsPage: React.FC = () => {
             onClick={() => navigate("/implementation")}
           />
         </ContentWrapper>
-      </AnalyticsContainer>
+      </PageWrapper>
     );
   }
 
   return (
-    <AnalyticsContainer>
+    <PageWrapper>
       <ContentWrapper>
         <Header>
           <BackButton onClick={() => navigate("/implementation")}>
@@ -79,7 +78,7 @@ export const BotAnalyticsPage: React.FC = () => {
           </MetricCard>
         </MetricsGrid>
       </ContentWrapper>
-    </AnalyticsContainer>
+    </PageWrapper>
   );
 };
 

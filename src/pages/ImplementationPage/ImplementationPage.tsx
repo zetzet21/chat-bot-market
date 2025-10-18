@@ -4,9 +4,8 @@ import { useBot } from "@app/providers/BotProvider";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { AddBotModal } from "@features/add-bot";
+import { PageWrapper, ContentWrapper } from "@shared/ui/PageWrapper";
 import {
-  ImplementationContainer,
-  ContentWrapper,
   Header,
   AddBotButton,
   BotsList,
@@ -26,8 +25,8 @@ const ImplementationPage = React.memo(function ImplementationPage() {
   };
 
   return (
-    <ImplementationContainer>
-      <ContentWrapper>
+    <PageWrapper>
+      <ContentWrapper style={{ padding: "0 40px" }}>
         <Header>
           <AddBotButton onClick={() => setIsAddModalOpen(true)}>+</AddBotButton>
         </Header>
@@ -51,7 +50,7 @@ const ImplementationPage = React.memo(function ImplementationPage() {
           onClose={() => setIsAddModalOpen(false)}
         />
       </ContentWrapper>
-    </ImplementationContainer>
+    </PageWrapper>
   );
 });
 

@@ -39,7 +39,8 @@ interface PaymentStepProps {
 }
 
 const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
-  const { items, totalPrice, totalDiscount, totalOldPrice } = useCart();
+  const { items, totalPrice, totalDiscount, totalOldPrice, removeFromCart } =
+    useCart();
   const [cartItems, setCartItems] = useState<
     (BotDetails & { quantity: number })[]
   >([]);
@@ -121,6 +122,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
           <CardForm>
             <CardField>
               <TextField
+                mode="dark"
                 label="Пример: 1234 1234 1234 1234"
                 name="cardNumber"
                 value={cardData.cardNumber}
@@ -130,6 +132,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
             </CardField>
             <CardField>
               <TextField
+                mode="dark"
                 label="Имя на карте"
                 name="cardName"
                 value={cardData.cardName}
@@ -141,6 +144,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
               <ExpiryDateWrapper>
                 <MonthField>
                   <TextField
+                    mode="dark"
                     label="Месяц"
                     name="expiryMonth"
                     value={cardData.expiryMonth}
@@ -150,6 +154,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
                 </MonthField>
                 <YearField>
                   <TextField
+                    mode="dark"
                     label="Год"
                     name="expiryYear"
                     value={cardData.expiryYear}
@@ -160,6 +165,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
               </ExpiryDateWrapper>
               <CardField>
                 <TextField
+                  mode="dark"
                   label="CVC"
                   name="cvc"
                   value={cardData.cvc}
@@ -211,7 +217,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
               integrations={item.integrations}
               quantity={item.quantity}
               onQuantityChange={() => {}}
-              onRemoveItem={() => {}}
+              onRemoveItem={() => removeFromCart(item.id)}
               isEditable={false}
             />
           ))}

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const CatalogContainer = styled.div`
-  max-width: ${({ theme }) => theme.container.maxWidth};
   padding: 0 40px;
 `;
 

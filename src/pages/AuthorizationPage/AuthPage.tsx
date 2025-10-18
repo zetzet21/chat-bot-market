@@ -6,12 +6,12 @@ import { TextField } from "@shared/ui/TextField/TextField";
 import { Text } from "@shared/ui/Text/Text";
 import { Title } from "@shared/ui/Title/Title";
 import {
-  PageContainer,
   LeftPanel,
   RightPanel,
   Logo,
   Form,
   Footer,
+  AuthPageWrapper,
 } from "./AuthPage.styled";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -57,7 +57,7 @@ export const AuthPage = React.memo(function AuthPage() {
   };
 
   return (
-    <PageContainer>
+    <AuthPageWrapper>
       <LeftPanel>
         <Logo>
           <LogoIcon />
@@ -151,7 +151,7 @@ export const AuthPage = React.memo(function AuthPage() {
           </Text>
         </Footer>
       </LeftPanel>
-    </PageContainer>
+    </AuthPageWrapper>
   );
 });
 

@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-export const ImplementationContainer = styled.div`
-  min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.background};
-  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-`;
-
-export const ContentWrapper = styled.div`
-  max-width: ${({ theme }) => theme.container.maxWidth};
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
-`;
-
 export const Header = styled.div`
   display: flex;
   align-items: flex-start;

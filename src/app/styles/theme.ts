@@ -65,9 +65,6 @@ export const theme = {
       xl: "48px",
     },
   },
-  container: {
-    maxWidth: "1200px",
-  },
   fontSize: {
     s: "16px",
     m: "24px",

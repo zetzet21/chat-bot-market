@@ -1,7 +1,6 @@
 import React from "react";
+import { PageWrapper, ContentWrapper } from "@shared/ui/PageWrapper";
 import {
-  AboutPageContainer,
-  ContentWrapper,
   Title,
   TextContent,
   Paragraph,
@@ -13,7 +12,7 @@ import {
 
 const AboutPage = React.memo(function AboutPage() {
   return (
-    <AboutPageContainer>
+    <PageWrapper>
       <ContentWrapper>
         <TopSection>
           <Title>О нас</Title>
@@ -27,7 +26,7 @@ const AboutPage = React.memo(function AboutPage() {
             </Paragraph>
             <Paragraph>
               Проект был разработан командой студентов при поддержке Фонда
-              содействия инновациям{" "}
+              содействия инновациям:
               <Link
                 href="https://fasie.ru/"
                 target="_blank"
@@ -46,7 +45,7 @@ const AboutPage = React.memo(function AboutPage() {
           />
         </SponsorSection>
       </ContentWrapper>
-    </AboutPageContainer>
+    </PageWrapper>
   );
 });
 

@@ -1,23 +1,5 @@
 import styled from "styled-components";
 
-export const AboutPageContainer = styled.div`
-  min-height: 100vh;
-  background-color: ${({ theme }) => theme.colors.GrayLight};
-  padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const ContentWrapper = styled.div`
-  max-width: ${({ theme }) => theme.container.maxWidth};
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${({ theme }) => theme.spacing.xl};
-`;
-
 export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: 700;

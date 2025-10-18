@@ -1,67 +1,53 @@
 import React, { useState } from "react";
-import {
-  CartLayoutContainer,
-  CartHeader,
-  CartHeaderStep,
-  CartContent,
-} from "./CartPage.style";
+import { CartContent, CartPageContainer } from "./CartPage.style";
 import CartSummary from "@features/cart-summary";
 import CheckoutStep from "@features/checkout-step";
 import PaymentStep from "@features/payment-step";
-import { Text } from "@shared/ui/Text/Text";
+import { TabBar } from "@features/tab-bar/TabBar";
 
 const STEPS = [
-  { id: 0, label: "Корзина" },
-  { id: 1, label: "Оформление заказа" },
-  { id: 2, label: "Оплата" },
+  { id: "cart", label: "Корзина" },
+  { id: "checkout", label: "Оформление заказа" },
+  { id: "payment", label: "Оплата" },
 ];
 
 const CartPage = React.memo(() => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState("cart");
 
-  const handleStepClick = (stepId: number) => {
+  const handleStepClick = (stepId: string) => {
     setCurrentStep(stepId);
   };
 
   const renderStepComponent = () => {
     switch (currentStep) {
-      case 0:
-        return <CartSummary onNextStep={() => setCurrentStep(1)} />;
-      case 1:
+      case "cart":
+        return <CartSummary onNextStep={() => setCurrentStep("checkout")} />;
+      case "checkout":
         return (
           <CheckoutStep
-            onNextStep={() => setCurrentStep(2)}
-            onPrevStep={() => setCurrentStep(0)}
+            onNextStep={() => setCurrentStep("payment")}
+            onPrevStep={() => setCurrentStep("cart")}
           />
         );
-      case 2:
-        return <PaymentStep onPrevStep={() => setCurrentStep(1)} />;
+      case "payment":
+        return <PaymentStep onPrevStep={() => setCurrentStep("checkout")} />;
       default:
-        return <CartSummary onNextStep={() => setCurrentStep(1)} />;
+        return <CartSummary onNextStep={() => setCurrentStep("checkout")} />;
     }
   };
 
   return (
-    <CartLayoutContainer>
-      <CartHeader>
-        {STEPS.map((step) => (
-          <CartHeaderStep
-            key={step.id}
-            active={currentStep === step.id}
-            onClick={() => handleStepClick(step.id)}
-          >
-            <Text
-              dimension="l"
-              weight="medium"
-              color={currentStep === step.id ? "white" : "secondary"}
-            >
-              {step.label}
-            </Text>
-          </CartHeaderStep>
-        ))}
-      </CartHeader>
+    <CartPageContainer>
+      <TabBar
+        tabs={STEPS}
+        activeTab={currentStep}
+        onTabChange={handleStepClick}
+        fullWidth
+        variant="underline"
+        size={"m"}
+      />
       <CartContent>{renderStepComponent()}</CartContent>
-    </CartLayoutContainer>
+    </CartPageContainer>
   );
 });
 

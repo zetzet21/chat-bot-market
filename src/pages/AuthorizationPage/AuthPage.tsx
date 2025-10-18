@@ -13,6 +13,7 @@ import {
   Form,
   Footer,
 } from "./AuthPage.styled";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // TODO: заменить на ваш SVG/лого
 const LogoIcon = () => (
@@ -23,13 +24,23 @@ const LogoIcon = () => (
 );
 
 export const AuthPage = React.memo(function AuthPage() {
-  const { login, register, isLoading, error } = useAuth();
+  const { login, register, isLoading, error, isAuthenticated } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

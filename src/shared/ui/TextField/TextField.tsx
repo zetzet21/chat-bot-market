@@ -14,18 +14,20 @@ export const TextField: React.FC<TextFieldProps> = ({
   type = "text",
   value,
   onChange,
-  placeholder,
+  placeholder = "Введите текст",
   disabled = false,
   autoFocus = false,
   frontIcon,
   backIcon,
+  mode = "light",
   ...rest
 }) => (
   <InputContainer>
-    {label && <StyledLabel>{label}</StyledLabel>}
-    <InputWrapper>
+    {label && <StyledLabel mode={mode}>{label}</StyledLabel>}
+    <InputWrapper mode={mode}>
       {frontIcon && <div className="icon front-icon">{frontIcon}</div>}
       <StyledInput
+        mode={mode}
         type={type}
         value={value}
         onChange={onChange}

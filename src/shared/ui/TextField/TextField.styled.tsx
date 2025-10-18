@@ -5,24 +5,32 @@ export const InputContainer = styled.div`
   width: 100%;
 `;
 
-export const StyledLabel = styled.label`
+export const StyledLabel = styled.label<{
+  mode: "light" | "dark";
+}>`
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #fff;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.s};
+  color: ${({ mode, theme }) =>
+    mode === "light" ? theme.colors.text : theme.colors.WhiteSolid};
 `;
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.div<{
+  mode: "light" | "dark";
+}>`
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  border: 1px solid
+    ${({ mode, theme }) =>
+      mode === "light" ? theme.colors.GrayLight : theme.colors.WhiteSolid};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   height: 56px;
   transition: border-color 0.2s;
-
+  background-color: ${({ mode, theme }) =>
+    mode === "light" ? theme.colors.WhiteSolid : theme.colors.Black};
   &:focus-within {
-    border-color: #fff;
+    border-color: ${({ mode, theme }) =>
+      mode === "light" ? theme.colors.primary : theme.colors.WhiteSolid};
   }
 
   .icon {
@@ -31,37 +39,44 @@ export const InputWrapper = styled.div`
     justify-content: center;
     width: 24px;
     height: 24px;
-    color: rgba(255, 255, 255, 0.7);
+    color: ${({ mode, theme }) =>
+      mode === "light" ? theme.colors.GrayDark : theme.colors.WhiteSolid};
 
     &.front-icon {
-      margin-left: 16px;
+      margin-left: ${({ theme }) => theme.spacing.md};
       margin-right: 12px;
     }
 
     &.back-icon {
-      margin-right: 16px;
+      margin-right: ${({ theme }) => theme.spacing.md};
       margin-left: 12px;
     }
   }
 `;
 
 export const StyledInput = styled.input<{
+  mode: "light" | "dark";
   $hasError: boolean;
   hasFrontIcon: boolean;
   hasBackIcon: boolean;
 }>`
   flex: 1;
-  background: transparent;
+  background: ${({ mode, theme }) =>
+    mode === "light" ? "transparent" : theme.colors.Black};
   border: none;
   outline: none;
-  color: #fff;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.typography.fontSize.s};
+  color: ${({ mode, theme }) =>
+    mode === "light" ? theme.colors.text : theme.colors.WhiteSolid};
   padding: 0;
-  padding-left: ${(props) => (props.hasFrontIcon ? "0" : "16px")};
-  padding-right: ${(props) => (props.hasBackIcon ? "0" : "16px")};
+  padding-left: ${(props) =>
+    props.hasFrontIcon ? "0" : props.theme.spacing.md};
+  padding-right: ${(props) =>
+    props.hasBackIcon ? "0" : props.theme.spacing.md};
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: ${({ mode, theme }) =>
+      mode === "light" ? theme.colors.GrayDark : theme.colors.GrayDark};
   }
 
   &:disabled {
@@ -71,7 +86,7 @@ export const StyledInput = styled.input<{
 `;
 
 export const ErrorText = styled.div`
-  color: #ff4d4f;
+  color: ${({ theme }) => theme.colors.error};
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `;

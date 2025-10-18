@@ -83,6 +83,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
           <FormRow>
             <FullWidthField>
               <TextField
+                mode="dark"
                 label="Email"
                 name="email"
                 value={formData.email}
@@ -94,6 +95,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
           <FormRow>
             <HalfWidthField>
               <TextField
+                mode="dark"
                 label="Имя"
                 name="firstName"
                 value={formData.firstName}
@@ -103,6 +105,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
             </HalfWidthField>
             <HalfWidthField>
               <TextField
+                mode="dark"
                 label="Фамилия"
                 name="lastName"
                 value={formData.lastName}
@@ -114,6 +117,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
           <FormRow>
             <FullWidthField>
               <TextField
+                mode="dark"
                 label="Организация (опционально)"
                 name="organization"
                 value={formData.organization}
@@ -125,6 +129,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
           <FormRow>
             <FullWidthField>
               <TextField
+                mode="dark"
                 label="Адрес"
                 name="address"
                 value={formData.address}
@@ -136,6 +141,7 @@ const CheckoutStep = ({ onNextStep, onPrevStep }: CheckoutStepProps) => {
           <FormRow>
             <FullWidthField>
               <TextField
+                mode="dark"
                 label="Ссылка привязки чат бота"
                 name="chatbotLink"
                 value={formData.chatbotLink}

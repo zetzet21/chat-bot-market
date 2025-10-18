@@ -11,7 +11,6 @@ const LoaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 50vh;
-  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 const Spinner = styled.div`

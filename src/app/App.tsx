@@ -4,16 +4,19 @@ import { AuthProvider } from "@app/providers/AuthProvider/AuthProvider";
 import { ThemeProvider } from "@app/providers/ThemeProvider";
 import { CartProvider } from "@app/providers/CartProvider";
 import { NotificationProvider } from "@app/providers/NotificationProvider";
+import { BotProvider } from "@app/providers/BotProvider";
 
 export const App = () => {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <CartProvider>
-          <NotificationProvider>
-            <Router />
-          </NotificationProvider>
-        </CartProvider>
+        <BotProvider>
+          <CartProvider>
+            <NotificationProvider>
+              <Router />
+            </NotificationProvider>
+          </CartProvider>
+        </BotProvider>
       </AuthProvider>
     </ThemeProvider>
   );

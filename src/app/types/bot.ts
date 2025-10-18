@@ -1,10 +1,16 @@
 export interface Bot {
   id: string;
-  title: string;
+  name: string;
   description: string;
-  price: number;
-  image: string;
-  rating: number;
-  features: string;
-  oldPrice?: number;
+  imageUrl?: string;
+  createdAt: Date;
+  isActive: boolean;
+}
+
+export interface BotAnalytics {
+  botId: string;
+  totalEarnings: number;
+  dailyEarnings: number;
+  dailySales: number;
+  lastUpdated: Date;
 }

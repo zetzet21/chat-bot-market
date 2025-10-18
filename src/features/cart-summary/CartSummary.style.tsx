@@ -54,7 +54,6 @@ export const QuantityButton = styled.button`
 export const OrderSummaryContainer = styled.div`
   margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 export const SummaryRow = styled.div`

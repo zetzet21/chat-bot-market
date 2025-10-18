@@ -73,12 +73,8 @@ export const Header: React.FC = () => {
         />
       </Menu>
       <RightBlock>
-        <SupportText>
-          проект создан
-          <br />
-          при поддержке ФСИ
-        </SupportText>
-        <FundLogo src="/fund-logo.png" alt="Фонд содействия инновациям" />
+        <SupportText>проект создан при поддержке ФСИ</SupportText>
+        <FundLogo src="/foundation.svg" alt="Фонд содействия инновациям" />
       </RightBlock>
     </HeaderContainer>
   );

@@ -30,9 +30,10 @@ export const theme = {
     focus: "#93c5fd",
   },
   spacing: {
-    sm: "0.5rem",
-    md: "1rem",
-    lg: "2rem",
+    sm: "8px",
+    md: "16px",
+    lg: "24px",
+    xl: "32px",
   },
   breakpoints: {
     sm: "576px",
@@ -45,16 +46,33 @@ export const theme = {
     lg: "12px",
   },
   typography: {
+    fontWeight: {
+      s: "400",
+      m: "400",
+      l: "400",
+      xl: "400",
+    },
+    lineHeight: {
+      s: "16",
+      m: "25",
+      l: "36",
+      xl: "48",
+    },
     fontSize: {
-      sm: "0.875rem",
-      md: "1rem",
-      lg: "1.125rem",
-      xl: "1.25rem",
-      xxl: "1.5rem",
+      s: "16px",
+      m: "24px",
+      l: "36px",
+      xl: "48px",
     },
   },
   container: {
     maxWidth: "1200px",
+  },
+  fontSize: {
+    s: "16px",
+    m: "24px",
+    l: "36px",
+    xl: "48px",
   },
 };
 

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const CartLayoutContainer = styled.div`
+export const CartPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #000;
+  background: ${({ theme }) => theme.colors.Black};
 `;
 
 export const CartHeader = styled.div`
@@ -26,7 +26,8 @@ export const CartHeaderStep = styled.div<{ active: boolean }>`
     bottom: -10px;
     width: 100%;
     height: 2px;
-    background-color: ${({ active }) => (active ? "#fff" : "transparent")};
+    background-color: ${({ active, theme }) =>
+      active ? theme.colors.Black : "transparent"};
     transition: background-color 0.3s ease;
   }
 `;

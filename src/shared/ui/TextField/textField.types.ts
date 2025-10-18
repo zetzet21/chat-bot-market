@@ -13,4 +13,5 @@ export interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   backIcon?: React.ReactNode;
   hasFrontIcon?: boolean;
   hasBackIcon?: boolean;
+  mode?: "light" | "dark";
 }

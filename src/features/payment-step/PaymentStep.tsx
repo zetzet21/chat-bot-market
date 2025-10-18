@@ -12,7 +12,6 @@ import {
   PaymentContainer,
   LeftPanel,
   RightPanel,
-  SectionTitle,
   PaymentSection,
   PaymentMethodGrid,
   PaymentMethodButton,

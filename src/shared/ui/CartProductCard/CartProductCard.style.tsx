@@ -96,7 +96,7 @@ export const CartQuantityButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-size: ${({ theme }) => theme.typography.fontSize.m};
 
   &:disabled {
     opacity: 0.5;

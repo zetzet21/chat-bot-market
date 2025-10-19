@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.text};
   margin: 0;
 `;
 
@@ -11,13 +10,15 @@ export const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
-  max-width: 600px;
-  margin-left: ${({ theme }) => theme.spacing.xl};
+  width: 100%;
+  align-items: center;
 `;
 
 export const Paragraph = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.s};
   line-height: 1.6;
+  width: 50%;
+  align-items: center;
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
 `;
@@ -40,20 +41,4 @@ export const RibbonStripe = styled.div<{ color: string }>`
 export const SponsorImage = styled.img`
   height: auto;
   object-fit: contain;
-`;
-
-export const TopSection = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 60px;
-  width: 100%;
-`;
-
-export const Link = styled.a`
-  color: ${({ theme }) => theme.colors.primary};
-  text-decoration: underline;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.secondary};
-  }
 `;

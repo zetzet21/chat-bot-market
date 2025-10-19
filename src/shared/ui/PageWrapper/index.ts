@@ -1,1 +1,1 @@
-export { PageWrapper, ContentWrapper } from "./PageWrapper";
+export { PageWrapper, ContentWrapper, TitleWrapper } from "./PageWrapper";

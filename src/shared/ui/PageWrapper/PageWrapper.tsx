@@ -10,6 +10,12 @@ export const PageWrapper = styled.div<{ backgroundColor?: string }>`
   padding: 0 40px;
 `;
 
+export const TitleWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+`;
+
 export const ContentWrapper = styled.div`
   width: 100%;
   margin: 0 auto;

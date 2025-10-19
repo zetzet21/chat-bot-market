@@ -3,6 +3,7 @@ import { TemplateCardProps } from "@entities/TemplateCard/types";
 export interface BotDetails {
   id: string;
   title: string;
+  name: string;
   image: string;
   price: number;
   oldPrice?: number;
@@ -13,6 +14,8 @@ export interface BotDetails {
   advantages: string;
   tech: string;
   usage: string;
+  createdAt: Date;
+  isActive: boolean;
 }
 
 export class CatalogService {
@@ -85,6 +88,9 @@ export class CatalogService {
             "Увеличение конверсии, сокращение времени на сбор информации, повышение качества обработки лидов.",
           tech: "Лёгкость в настройке, интеграция с маркетинговыми инструментами, возможность автоматической отправки уведомлений.",
           usage: "Агентства, стартапы, компании, занимающиеся онлайн-рекламой.",
+          name: "Чат-бот для консультаций в сфере туризма",
+          createdAt: new Date(),
+          isActive: true,
         });
       }, 500);
     });

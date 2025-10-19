@@ -5,6 +5,8 @@ export interface Bot {
   imageUrl?: string;
   createdAt: Date;
   isActive: boolean;
+  price: number;
+  oldPrice?: number;
 }
 
 export interface BotAnalytics {

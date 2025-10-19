@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { Layout } from "@widgets/Layout";
@@ -69,6 +70,9 @@ export const router = createBrowserRouter([
             <AboutPage />
           </Suspense>
         ),
+        handle: {
+          crumb: () => "О нас",
+        },
       },
       {
         path: "implementation",
@@ -81,17 +85,14 @@ export const router = createBrowserRouter([
         ),
         handle: {
           crumb: () => "Внедрение",
-          requiresAuth: true,
         },
       },
       {
-        path: "implementation/bot/:botId",
+        path: "implementation/:botId",
         element: (
-          <ProtectedRoute>
-            <Suspense fallback={<PageLoader />}>
-              <BotAnalyticsPage />
-            </Suspense>
-          </ProtectedRoute>
+          <Suspense fallback={<PageLoader />}>
+            <BotAnalyticsPage />
+          </Suspense>
         ),
         handle: {
           crumb: () => "Аналитика бота",

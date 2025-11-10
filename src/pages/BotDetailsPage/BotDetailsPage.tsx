@@ -41,7 +41,21 @@ const BotDetailsPage = React.memo(() => {
 
   const handleAddToCart = () => {
     if (bot) {
-      addToCart(bot);
+      // Преобразуем BotDetails в Bot для корзины
+      addToCart({
+        id: bot.id,
+        name: bot.name,
+        description: bot.description,
+        price: bot.price,
+        oldPrice: bot.oldPrice,
+        imageUrl: bot.image,
+        createdAt: bot.createdAt,
+        isActive: bot.isActive,
+        ownerId: bot.ownerId,
+        features: bot.features,
+        integrations: bot.integrations,
+        usage: bot.usage,
+      });
       showNotification("Бот успешно добавлен в корзину", "success");
     }
   };

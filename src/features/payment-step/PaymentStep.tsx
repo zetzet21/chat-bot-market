@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@app/providers/CartProvider";
+import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
+import { useNotification } from "@app/providers/NotificationProvider";
 import { CatalogService, BotDetails } from "@app/api/CatalogService";
+import { ordersApi } from "@app/api/orders";
 import { PageLoader } from "@shared/ui/PageLoader";
 import { TextField } from "@shared/ui/TextField/TextField";
 import { Button } from "@shared/ui/Button/Button";
@@ -39,12 +43,16 @@ interface PaymentStepProps {
 }
 
 const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
-  const { items, totalPrice, totalDiscount, totalOldPrice, removeFromCart } =
+  const { items, totalPrice, totalDiscount, totalOldPrice, clearCart } =
     useCart();
+  const { user, isAuthenticated } = useAuth();
+  const { showNotification } = useNotification();
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<
     (BotDetails & { quantity: number })[]
   >([]);
   const [loading, setLoading] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [cardData, setCardData] = useState({
     cardNumber: "",
     cardName: "",
@@ -80,6 +88,73 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const handleCompleteOrder = async () => {
+    if (!isAuthenticated || !user) {
+      showNotification(
+        "Необходимо авторизоваться для завершения покупки",
+        "error"
+      );
+      navigate("/auth", { state: { from: { pathname: "/cart" } } });
+      return;
+    }
+
+    if (items.length === 0) {
+      showNotification("Корзина пуста", "error");
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      // Преобразуем элементы корзины в формат заказа
+      const orderItems = items.map((item) => {
+        const cartItem = cartItems.find((ci) => ci.id === item.bot.id);
+        return {
+          bot: {
+            id: item.bot.id,
+            name: item.bot.name || cartItem?.title || "Бот",
+            description: item.bot.description || cartItem?.description || "",
+            price: item.bot.price,
+            oldPrice: item.bot.oldPrice,
+            createdAt: item.bot.createdAt || new Date(),
+            isActive: item.bot.isActive ?? true,
+            ownerId: item.bot.ownerId || cartItem?.ownerId || "",
+            features: item.bot.features || cartItem?.features || "",
+            integrations: item.bot.integrations || cartItem?.integrations || [],
+            usage: item.bot.usage || cartItem?.usage || "",
+          },
+          quantity: item.quantity,
+          price: item.bot.price,
+        };
+      });
+
+      // Создаем заказ со статусом "completed"
+      const order = await ordersApi.createOrder(
+        user.id,
+        orderItems,
+        totalPrice,
+        totalOldPrice
+      );
+
+      // Обновляем статус заказа на "completed"
+      await ordersApi.completeOrder(order.id);
+
+      showNotification("Покупка успешно завершена!", "success");
+      clearCart();
+
+      // Перенаправляем на страницу истории покупок
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    } catch (error: any) {
+      showNotification(
+        error.message || "Ошибка при завершении покупки",
+        "error"
+      );
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (loading) return <PageLoader />;
@@ -217,7 +292,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
               integrations={item.integrations}
               quantity={item.quantity}
               onQuantityChange={() => {}}
-              onRemoveItem={() => removeFromCart(item.id)}
+              onRemoveItem={() => {}}
               isEditable={false}
             />
           ))}
@@ -243,7 +318,7 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
             </SummaryLabel>
             <SummaryValue>
               <Text dimension="l" weight="medium" color="white">
-                - {totalDiscount?.toLocaleString()} ₽
+                {totalDiscount?.toLocaleString()} ₽
               </Text>
             </SummaryValue>
           </SummaryRow>
@@ -265,7 +340,8 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
             label="Завершить покупку"
             appearence={ButtonAppearence.PRIMARY}
             dimension="l"
-            onClick={() => console.log("Order completed!")}
+            onClick={handleCompleteOrder}
+            disabled={isProcessing}
           />
         </CompleteOrderButtonWrapper>
       </RightPanel>

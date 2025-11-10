@@ -17,6 +17,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (email: string, password: string, name?: string) => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -82,6 +83,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
+  const updateProfile = async (data: Partial<User>) => {
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      const updatedUser = await authApi.updateProfile(user.id, data);
+      setUser(updatedUser);
+    } catch (e: any) {
+      setError(e.message || "Ошибка обновления профиля");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -92,6 +108,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
+        updateProfile,
       }}
     >
       {children}

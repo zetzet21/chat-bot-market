@@ -11,7 +11,6 @@ import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useCart } from "@app/providers/CartProvider";
 
 // TODO: Replace with your actual SVG icon import
@@ -30,7 +29,7 @@ const MenuIcon = () => (
 );
 
 export const Header: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { totalItems } = useCart();
 
@@ -58,13 +57,22 @@ export const Header: React.FC = () => {
           dimension="m"
           onClick={() => navigate("/about")}
         />
-        <Button
-          label="Личный кабинет"
-          appearence={ButtonAppearence.GHOST}
-          dimension="m"
-          frontIcon={<MenuIcon />}
-          onClick={() => navigate("/dashboard")}
-        />
+        {isAuthenticated ? (
+          <Button
+            label="Личный кабинет"
+            appearence={ButtonAppearence.GHOST}
+            dimension="m"
+            frontIcon={<MenuIcon />}
+            onClick={() => navigate("/dashboard")}
+          />
+        ) : (
+          <Button
+            label="Войти/зарегистрироваться"
+            appearence={ButtonAppearence.GHOST}
+            dimension="m"
+            onClick={() => navigate("/auth")}
+          />
+        )}
         <Button
           label="Корзина"
           appearence={ButtonAppearence.GHOST}

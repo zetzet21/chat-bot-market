@@ -7,6 +7,10 @@ export interface Bot {
   isActive: boolean;
   price: number;
   oldPrice?: number;
+  ownerId: string; // ID пользователя, который создал бота
+  features: string; // Функции бота
+  integrations: string[]; // Интеграции (vk, telegram, instagram, youtube, crm, mailchimp, whatsapp)
+  usage: string; // Категории применения
 }
 
 export interface BotAnalytics {

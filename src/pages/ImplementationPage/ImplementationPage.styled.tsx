@@ -81,3 +81,42 @@ export const BotStatus = styled.span<{ isActive: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   align-self: flex-start;
 `;
+
+export const EarningsSection = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+`;
+
+export const EarningsCard = styled.div`
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.primary} 0%,
+    ${({ theme }) => theme.colors.secondary} 100%
+  );
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  box-shadow: 0 4px 16px ${({ theme }) => theme.colors.Gray20};
+`;
+
+export const EarningsTitle = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`;
+
+export const EarningsValue = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const EarningsStats = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const StatsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const StatsLabel = styled.div``;
+
+export const StatsValue = styled.div``;

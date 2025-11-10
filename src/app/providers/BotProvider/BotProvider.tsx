@@ -11,35 +11,18 @@ interface BotContextType {
 const BotContext = createContext<BotContextType | undefined>(undefined);
 
 export const BotProvider = ({ children }: { children: ReactNode }) => {
-  const [bots, setBots] = useState<Bot[]>([
-    {
-      id: "bot-1",
-      name: "Sales Bot",
-      description: "A bot to help with sales inquiries and lead generation.",
-      isActive: true,
-      createdAt: new Date("2023-01-15T10:00:00Z"),
-    },
-    {
-      id: "bot-2",
-      name: "Support Bot",
-      description: "Provides 24/7 customer support and answers FAQs.",
-      isActive: false,
-      createdAt: new Date("2023-02-20T11:30:00Z"),
-    },
-    {
-      id: "bot-3",
-      name: "Marketing Bot",
-      description: "Automates social media posting and campaign management.",
-      isActive: true,
-      createdAt: new Date("2023-03-01T14:00:00Z"),
-    },
-  ]);
+  const [bots, setBots] = useState<Bot[]>([]);
 
   const addBot = (botData: Omit<Bot, "id" | "createdAt">) => {
     const newBot: Bot = {
       ...botData,
       id: Date.now().toString(),
       createdAt: new Date(),
+      price: botData.price || 0,
+      ownerId: botData.ownerId || "",
+      features: botData.features || "",
+      integrations: botData.integrations || [],
+      usage: botData.usage || "",
     };
     setBots((prev) => [...prev, newBot]);
   };

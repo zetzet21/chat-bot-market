@@ -20,6 +20,7 @@ const ImplementationPage = lazy(
 const BotAnalyticsPage = lazy(
   () => import("@pages/BotAnalyticsPage/BotAnalyticsPage")
 );
+const DashboardPage = lazy(() => import("@pages/DashboardPage"));
 
 export const router = createBrowserRouter([
   {
@@ -102,9 +103,11 @@ export const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <Suspense fallback={<PageLoader />}>
-            {/* <DashboardPage /> */}
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<PageLoader />}>
+              <DashboardPage />
+            </Suspense>
+          </ProtectedRoute>
         ),
         handle: {
           crumb: () => "Личный кабинет",

@@ -37,14 +37,18 @@ import {
   EditButtonContainer,
   CartItemsContainer,
 } from "./PaymentStep.style";
+import { Bot } from "@app/types/bot";
 
 interface PaymentStepProps {
   onPrevStep: () => void;
 }
 
+type ExtendedBot = Bot & { sourceArchive?: File };
+
 const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
   const { items, totalPrice, totalDiscount, totalOldPrice, clearCart } =
     useCart();
+  const itemsTyped = items as { bot: ExtendedBot; quantity: number }[];
   const { user, isAuthenticated } = useAuth();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
@@ -107,6 +111,14 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
 
     setIsProcessing(true);
     try {
+      // Восстанавливаем sourceArchive для каждого bot в корзине (если есть)
+      itemsTyped.forEach((cartItem) => {
+        if (!cartItem.bot.sourceArchive && (window as any).archivesByBotId) {
+          const found = (window as any).archivesByBotId[cartItem.bot.id];
+          if (found) cartItem.bot.sourceArchive = found;
+        }
+      });
+
       // Преобразуем элементы корзины в формат заказа
       const orderItems = items.map((item) => {
         const cartItem = cartItems.find((ci) => ci.id === item.bot.id);
@@ -141,6 +153,27 @@ const PaymentStep = ({ onPrevStep }: PaymentStepProps) => {
       await ordersApi.completeOrder(order.id);
 
       showNotification("Покупка успешно завершена!", "success");
+      // Сохраняем архивы в window.archivesByBotId для доступа в личном кабинете (frontend mock)
+      if ((window as any).archivesByBotId === undefined)
+        (window as any).archivesByBotId = {};
+      itemsTyped.forEach((cartItem, i) => {
+        if (cartItem.bot.sourceArchive) {
+          (window as any).archivesByBotId[cartItem.bot.id] =
+            cartItem.bot.sourceArchive;
+          const url = URL.createObjectURL(cartItem.bot.sourceArchive);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = cartItem.bot.name
+            ? `${cartItem.bot.name}-sources${cartItem.bot.sourceArchive.name.slice(cartItem.bot.sourceArchive.name.lastIndexOf("."))}`
+            : cartItem.bot.sourceArchive.name;
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }, 200);
+        }
+      });
       clearCart();
 
       // Перенаправляем на страницу истории покупок

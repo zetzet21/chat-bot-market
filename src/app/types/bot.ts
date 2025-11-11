@@ -11,6 +11,7 @@ export interface Bot {
   features: string; // Функции бота
   integrations: string[]; // Интеграции (vk, telegram, instagram, youtube, crm, mailchimp, whatsapp)
   usage: string; // Категории применения
+  sourceArchive?: File; // Архив исходников (только для client-side)
 }
 
 export interface BotAnalytics {

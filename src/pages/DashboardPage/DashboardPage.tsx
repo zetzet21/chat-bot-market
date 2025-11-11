@@ -26,6 +26,35 @@ import {
   OrderStatus,
   EmptyState,
 } from "./DashboardPage.styled";
+import { Bot } from "@app/types/bot";
+
+// Расширим window для мок-хранилища архивов исходников при заказе (frontend-only)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getArchivesByBotId = () =>
+  (window as any).archivesByBotId as Record<string, File> | undefined;
+
+function getArchiveForBotId(botId: string): File | null {
+  const archiveMap = getArchivesByBotId();
+  if (archiveMap && archiveMap[botId]) return archiveMap[botId];
+  return null;
+}
+
+function downloadArchive(bot: Bot) {
+  const archive = getArchiveForBotId(bot.id);
+  if (!archive) return;
+  const url = URL.createObjectURL(archive);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = bot.name
+    ? `${bot.name}-sources${archive.name.slice(archive.name.lastIndexOf("."))}`
+    : archive.name;
+  document.body.appendChild(link);
+  link.click();
+  setTimeout(() => {
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, 200);
+}
 
 const DashboardPage = React.memo(function DashboardPage() {
   const { user, updateProfile, isLoading: authLoading } = useAuth();
@@ -213,7 +242,13 @@ const DashboardPage = React.memo(function DashboardPage() {
                     <OrderHeader>
                       <div>
                         <strong>Заказ №{order.id}</strong>
-                        <div style={{ fontSize: "14px", color: "#666", marginTop: "4px" }}>
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#666",
+                            marginTop: "4px",
+                          }}
+                        >
                           {formatDate(order.createdAt)}
                         </div>
                       </div>
@@ -233,6 +268,16 @@ const DashboardPage = React.memo(function DashboardPage() {
                           <div>
                             <strong>{item.price * item.quantity} ₽</strong>
                           </div>
+                          {/* Кнопка скачивания */}
+                          <div>
+                            <Button
+                              dimension="s"
+                              appearence={ButtonAppearence.GHOST}
+                              label="Скачать архив"
+                              onClick={() => downloadArchive(item.bot)}
+                              disabled={!getArchiveForBotId(item.bot.id)}
+                            />
+                          </div>
                         </OrderItem>
                       ))}
                     </OrderItems>
@@ -247,17 +292,18 @@ const DashboardPage = React.memo(function DashboardPage() {
                       }}
                     >
                       <div>
-                        {order.totalOldPrice && order.totalOldPrice > order.totalPrice && (
-                          <div
-                            style={{
-                              fontSize: "14px",
-                              color: "#666",
-                              textDecoration: "line-through",
-                            }}
-                          >
-                            {order.totalOldPrice} ₽
-                          </div>
-                        )}
+                        {order.totalOldPrice &&
+                          order.totalOldPrice > order.totalPrice && (
+                            <div
+                              style={{
+                                fontSize: "14px",
+                                color: "#666",
+                                textDecoration: "line-through",
+                              }}
+                            >
+                              {order.totalOldPrice} ₽
+                            </div>
+                          )}
                       </div>
                       <div style={{ fontSize: "18px", fontWeight: "bold" }}>
                         Итого: {order.totalPrice} ₽
@@ -275,4 +321,3 @@ const DashboardPage = React.memo(function DashboardPage() {
 });
 
 export default DashboardPage;
-

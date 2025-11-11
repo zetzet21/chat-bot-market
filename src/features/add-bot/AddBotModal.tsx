@@ -53,6 +53,7 @@ const initialForm = {
   advantages: "",
   tech: "",
   image: null as File | null,
+  sourceArchive: null as File | null,
 };
 
 export const AddBotModal: React.FC<AddBotModalProps> = ({
@@ -87,6 +88,34 @@ export const AddBotModal: React.FC<AddBotModalProps> = ({
       showNotification("Можно загрузить только jpg и png", "error");
       handleChange("image", null);
       if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSourceArchiveChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files && e.target.files[0];
+    if (
+      file &&
+      [
+        "application/zip",
+        "application/x-zip-compressed",
+        "application/x-rar-compressed",
+        "application/x-7z-compressed",
+        "application/x-7zip",
+        "application/octet-stream",
+        ".zip",
+        ".rar",
+        ".7z",
+      ].some(
+        (typeOrExt) =>
+          file.type.includes(typeOrExt) || file.name.endsWith(typeOrExt)
+      )
+    ) {
+      setForm((prev) => ({ ...prev, sourceArchive: file }));
+    } else {
+      showNotification("Допустимы только архивы zip, rar, 7z", "error");
+      setForm((prev) => ({ ...prev, sourceArchive: null }));
     }
   };
 
@@ -137,6 +166,12 @@ export const AddBotModal: React.FC<AddBotModalProps> = ({
       showNotification("Бот успешно добавлен в систему", "success");
       resetForm();
       onClose();
+      // Сохраняем архив по id бота в глобальное хранилище для доступа из корзины/кабинета (mock)
+      if (form.sourceArchive && botDetails.id) {
+        if ((window as any).archivesByBotId === undefined)
+          (window as any).archivesByBotId = {};
+        (window as any).archivesByBotId[botDetails.id] = form.sourceArchive;
+      }
     } catch (error: any) {
       showNotification(error.message || "Ошибка при добавлении бота", "error");
     } finally {
@@ -251,6 +286,24 @@ export const AddBotModal: React.FC<AddBotModalProps> = ({
               {form.image && (
                 <div style={{ marginTop: 8 }}>
                   <Text dimension="s">Выбран файл: {form.image.name}</Text>
+                </div>
+              )}
+            </div>
+            <div style={{ margin: "16px 0 12px" }}>
+              <label style={{ fontWeight: 500 }}>
+                Архив с исходниками (zip, rar, 7z):
+              </label>
+              <input
+                type="file"
+                accept=".zip,.rar,.7z,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/x-7z-compressed"
+                onChange={handleSourceArchiveChange}
+                disabled={isLoading}
+              />
+              {form.sourceArchive && (
+                <div style={{ marginTop: 8 }}>
+                  <Text dimension="s">
+                    Выбран архив: {form.sourceArchive.name}
+                  </Text>
                 </div>
               )}
             </div>

@@ -4,14 +4,15 @@ import {
   ContentWrapper,
   TitleWrapper,
 } from "@shared/ui/PageWrapper";
-import { Link } from "react-router-dom";
 import {
   TextContent,
   Paragraph,
   SponsorSection,
+  SponsorText,
   SponsorImage,
 } from "./AboutPage.styled";
 import { Title } from "@shared/ui/Title/Title";
+import { FasieSupportNotice } from "@shared/ui/FasieSupportNotice";
 
 const AboutPage = React.memo(function AboutPage() {
   return (
@@ -30,19 +31,11 @@ const AboutPage = React.memo(function AboutPage() {
             возможностью создания чат-ботов под индивидуальные требования
             заказчика.
           </Paragraph>
-          <Paragraph>
-            Проект был разработан командой студентов при поддержке Фонда
-            содействия инновациям:
-            <Link
-              to="https://fasie.ru/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              https://fasie.ru/
-            </Link>
-          </Paragraph>
         </TextContent>
         <SponsorSection>
+          <SponsorText>
+            <FasieSupportNotice />
+          </SponsorText>
           <SponsorImage
             src="/foundation.svg"
             alt="Фонд содействия инновациям"

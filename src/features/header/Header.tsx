@@ -12,6 +12,7 @@ import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@app/providers/CartProvider";
+import { FasieSupportNotice } from "@shared/ui/FasieSupportNotice";
 
 // TODO: Replace with your actual SVG icon import
 const MenuIcon = () => (
@@ -81,7 +82,9 @@ export const Header: React.FC = () => {
         />
       </Menu>
       <RightBlock>
-        <SupportText>проект создан при поддержке ФСИ</SupportText>
+        <SupportText>
+          <FasieSupportNotice />
+        </SupportText>
         <FundLogo src="/foundation.svg" alt="Фонд содействия инновациям" />
       </RightBlock>
     </HeaderContainer>

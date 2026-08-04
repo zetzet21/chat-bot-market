@@ -32,6 +32,20 @@ export const SponsorSection = styled.div`
   width: 100%;
 `;
 
+export const SponsorText = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.s};
+  line-height: 1.6;
+  text-align: center;
+  max-width: 720px;
+  color: ${({ theme }) => theme.colors.text};
+  margin: 0;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+`;
+
 export const RibbonStripe = styled.div<{ color: string }>`
   height: 33.33%;
   background-color: ${(props) => props.color};

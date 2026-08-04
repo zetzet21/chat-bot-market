@@ -6,6 +6,7 @@ import {
   RightBlock,
   SupportText,
   FundLogo,
+  FundLogoLink,
 } from "./Header.style";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
@@ -13,6 +14,7 @@ import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@app/providers/CartProvider";
 import { FasieSupportNotice } from "@shared/ui/FasieSupportNotice";
+import { FASIE_PAGE_PATH } from "@shared/constants/fasie";
 
 // TODO: Replace with your actual SVG icon import
 const MenuIcon = () => (
@@ -83,9 +85,11 @@ export const Header: React.FC = () => {
       </Menu>
       <RightBlock>
         <SupportText>
-          <FasieSupportNotice />
+          <FasieSupportNotice variant="header" />
         </SupportText>
-        <FundLogo src="/foundation.svg" alt="Фонд содействия инновациям" />
+        <FundLogoLink to={FASIE_PAGE_PATH} aria-label="О фонде содействия инновациям">
+          <FundLogo src="/foundation.svg" alt="Фонд содействия инновациям" />
+        </FundLogoLink>
       </RightBlock>
     </HeaderContainer>
   );

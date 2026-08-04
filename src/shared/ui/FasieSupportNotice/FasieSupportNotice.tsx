@@ -1,24 +1,55 @@
 import React from "react";
-import { FASIE_LINK } from "@shared/constants/fasie";
+import { FASIE_LINK, FASIE_PAGE_PATH } from "@shared/constants/fasie";
+import {
+  ExternalFundLink,
+  ExternalLinkButton,
+  InternalFundLink,
+  ProminentNotice,
+  ProminentNoticeBox,
+} from "./FasieSupportNotice.styled";
 
 type FasieSupportNoticeProps = {
-  linkClassName?: string;
+  variant?: "header" | "page";
 };
 
+const fundLinkText = "«Фонда содействия инновациям»";
+
+const supportTextTail =
+  ' в рамках программы "Студенческий стартап" федерального проекта «Платформа университетского технологического предпринимательства»';
+
 export const FasieSupportNotice: React.FC<FasieSupportNoticeProps> = ({
-  linkClassName,
-}) => (
-  <>
-    Проект выполнен при поддержке{" "}
-    <a
-      href={FASIE_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={linkClassName}
-    >
-      «Фонда содействия инновациям»
-    </a>{" "}
-    в рамках программы &quot;Студенческий стартап&quot; федерального проекта
-    «Платформа университетского технологического предпринимательства»
-  </>
-);
+  variant = "header",
+}) => {
+  if (variant === "page") {
+    return (
+      <ProminentNoticeBox>
+        <ProminentNotice>
+          Проект выполнен при поддержке{" "}
+          <ExternalFundLink
+            href={FASIE_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {fundLinkText}
+          </ExternalFundLink>
+          {supportTextTail}
+        </ProminentNotice>
+        <ExternalLinkButton
+          href={FASIE_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Перейти на сайт Фонда содействия инновациям
+        </ExternalLinkButton>
+      </ProminentNoticeBox>
+    );
+  }
+
+  return (
+    <>
+      Проект выполнен при поддержке{" "}
+      <InternalFundLink to={FASIE_PAGE_PATH}>{fundLinkText}</InternalFundLink>
+      {supportTextTail}
+    </>
+  );
+};

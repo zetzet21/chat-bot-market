@@ -10,9 +10,12 @@ import {
   SponsorSection,
   SponsorText,
   SponsorImage,
+  SponsorImageLink,
 } from "./AboutPage.styled";
 import { Title } from "@shared/ui/Title/Title";
 import { FasieSupportNotice } from "@shared/ui/FasieSupportNotice";
+import { FASIE_PAGE_PATH } from "@shared/constants/fasie";
+import { Link } from "react-router-dom";
 
 const AboutPage = React.memo(function AboutPage() {
   return (
@@ -34,12 +37,14 @@ const AboutPage = React.memo(function AboutPage() {
         </TextContent>
         <SponsorSection>
           <SponsorText>
-            <FasieSupportNotice />
+            <FasieSupportNotice variant="header" />
           </SponsorText>
-          <SponsorImage
-            src="/foundation.svg"
-            alt="Фонд содействия инновациям"
-          />
+          <SponsorImageLink to={FASIE_PAGE_PATH}>
+            <SponsorImage
+              src="/foundation.svg"
+              alt="Фонд содействия инновациям"
+            />
+          </SponsorImageLink>
         </SponsorSection>
       </ContentWrapper>
     </PageWrapper>

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
@@ -39,10 +40,14 @@ export const SponsorText = styled.p`
   max-width: 720px;
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
+`;
 
-  a {
-    color: inherit;
-    text-decoration: underline;
+export const SponsorImageLink = styled(Link)`
+  display: block;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
   }
 `;
 

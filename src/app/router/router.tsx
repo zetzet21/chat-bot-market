@@ -10,6 +10,7 @@ import { PageLoader } from "@shared/ui/PageLoader";
 import { ProtectedRoute } from "@shared/ui/ProtectedRoute";
 
 const AboutPage = lazy(() => import("@pages/AboutPage/AboutPage"));
+const FoundationPage = lazy(() => import("@pages/FoundationPage"));
 const BotDetailsPage = lazy(() => import("@pages/BotDetailsPage"));
 const AuthPage = lazy(() => import("@pages/AuthorizationPage/AuthPage"));
 const CatalogPage = lazy(() => import("@pages/CatalogPage"));
@@ -73,6 +74,17 @@ export const router = createBrowserRouter([
         ),
         handle: {
           crumb: () => "О нас",
+        },
+      },
+      {
+        path: "foundation",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <FoundationPage />
+          </Suspense>
+        ),
+        handle: {
+          crumb: () => "Фонд содействия инновациям",
         },
       },
       {

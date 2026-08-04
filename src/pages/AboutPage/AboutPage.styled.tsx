@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
@@ -30,6 +31,24 @@ export const SponsorSection = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   margin-top: 60px;
   width: 100%;
+`;
+
+export const SponsorText = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.s};
+  line-height: 1.6;
+  text-align: center;
+  max-width: 720px;
+  color: ${({ theme }) => theme.colors.text};
+  margin: 0;
+`;
+
+export const SponsorImageLink = styled(Link)`
+  display: block;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
 `;
 
 export const RibbonStripe = styled.div<{ color: string }>`

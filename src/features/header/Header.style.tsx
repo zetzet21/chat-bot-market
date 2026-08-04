@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -45,15 +46,30 @@ export const RightBlock = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  max-width: 150px;
+  gap: 8px;
+  max-width: 280px;
+  flex-shrink: 0;
 `;
 
 export const SupportText = styled.div`
-  font-size: 14px;
+  font-size: 11px;
+  line-height: 1.4;
   text-align: right;
   color: #2d1c1c;
 `;
 
+export const FundLogoLink = styled(Link)`
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
 export const FundLogo = styled.img`
   width: 100%;
+  display: block;
 `;

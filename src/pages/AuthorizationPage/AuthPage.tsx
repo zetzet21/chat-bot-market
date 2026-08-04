@@ -3,17 +3,17 @@ import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { TextField } from "@shared/ui/TextField/TextField";
+import { Text } from "@shared/ui/Text/Text";
+import { Title } from "@shared/ui/Title/Title";
 import {
-  PageContainer,
   LeftPanel,
   RightPanel,
   Logo,
-  Title,
-  Subtitle,
   Form,
   Footer,
-  ErrorText,
+  AuthPageWrapper,
 } from "./AuthPage.styled";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // TODO: заменить на ваш SVG/лого
 const LogoIcon = () => (
@@ -24,13 +24,23 @@ const LogoIcon = () => (
 );
 
 export const AuthPage = React.memo(function AuthPage() {
-  const { login, register, isLoading, error } = useAuth();
+  const { login, register, isLoading, error, isAuthenticated } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [localError, setLocalError] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,17 +57,23 @@ export const AuthPage = React.memo(function AuthPage() {
   };
 
   return (
-    <PageContainer>
+    <AuthPageWrapper>
       <LeftPanel>
         <Logo>
           <LogoIcon />
         </Logo>
-        <Title>Добро пожаловать!</Title>
+        <Title as="h2" dimension="xl" weight="semibold" color="dark">
+          Добро пожаловать!
+        </Title>
         {isRegister ? null : (
-          <Subtitle>
+          <Text
+            dimension="l"
+            color="secondary"
+            style={{ marginBottom: "24px", textAlign: "center" }}
+          >
             Войдите в аккаунт для полного доступа к покупке чат ботов для вашего
             бизнеса
-          </Subtitle>
+          </Text>
         )}
         <Form onSubmit={handleSubmit}>
           {isRegister && (
@@ -98,7 +114,13 @@ export const AuthPage = React.memo(function AuthPage() {
             />
           )}
           {(error || localError) && (
-            <ErrorText>{error || localError}</ErrorText>
+            <Text
+              dimension="m"
+              color="danger"
+              style={{ marginBottom: "8px", textAlign: "center" }}
+            >
+              {error || localError}
+            </Text>
           )}
           <Button
             label={isRegister ? "Зарегистрироваться" : "Войти"}
@@ -122,16 +144,14 @@ export const AuthPage = React.memo(function AuthPage() {
           />
         </div>
         <Footer>
-          Регистрируясь вы принимаете
-          <br />
-          Политику конфиденциальности
+          <Text dimension="s" color="secondary" style={{ lineHeight: "1.4" }}>
+            Регистрируясь вы принимаете
+            <br />
+            Политику конфиденциальности
+          </Text>
         </Footer>
       </LeftPanel>
-      <RightPanel>
-        {/* Здесь можно разместить декоративный фон/иллюстрацию */}
-        {/* <img src="/decor.png" alt="decor" /> */}
-      </RightPanel>
-    </PageContainer>
+    </AuthPageWrapper>
   );
 });
 

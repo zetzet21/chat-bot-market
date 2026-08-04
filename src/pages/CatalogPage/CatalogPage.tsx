@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { TemplateCard } from "@entities/TemplateCard";
-import { CatalogContainer, CardsRow, CatalogTitle } from "./CatalogPage.style";
+import { CatalogContainer, CardsRow } from "./CatalogPage.style";
 import { CatalogService } from "@app/api/CatalogService";
 import { TemplateCardProps } from "@entities/TemplateCard/types";
 import { usePagination } from "./hooks/usePagination";
 import { PageLoader } from "@shared/ui/PageLoader";
 import { Pagination } from "@shared/ui/Pagination";
+import { Title } from "@shared/ui/Title/Title";
+import {
+  ContentWrapper,
+  PageWrapper,
+  TitleWrapper,
+} from "@shared/ui/PageWrapper";
 
 const PAGE_SIZE = 10;
 
@@ -31,17 +37,23 @@ const CatalogPage = () => {
   );
 
   return (
-    <CatalogContainer>
-      <CatalogTitle>Каталог</CatalogTitle>
-      {loading ? (
-        <PageLoader />
-      ) : (
-        <>
-          <CardsRow>{cards}</CardsRow>
-          <Pagination page={page} nextPage={nextPage} prevPage={prevPage} />
-        </>
-      )}
-    </CatalogContainer>
+    <PageWrapper>
+      <TitleWrapper>
+        <Title as="h1" dimension="xxl" color="primary" weight="semibold">
+          Каталог
+        </Title>
+      </TitleWrapper>
+      <ContentWrapper>
+        {loading ? (
+          <PageLoader />
+        ) : (
+          <>
+            <CardsRow>{cards}</CardsRow>
+            <Pagination page={page} nextPage={nextPage} prevPage={prevPage} />
+          </>
+        )}
+      </ContentWrapper>
+    </PageWrapper>
   );
 };
 

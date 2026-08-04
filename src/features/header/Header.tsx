@@ -1,3 +1,4 @@
+import React from "react";
 import {
   HeaderContainer,
   Logo,
@@ -5,11 +6,15 @@ import {
   RightBlock,
   SupportText,
   FundLogo,
+  FundLogoLink,
 } from "./Header.style";
 import { Button } from "@shared/ui/Button/Button";
 import { ButtonAppearence } from "@shared/ui/Button/button.types";
 import { useAuth } from "@app/providers/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@app/providers/CartProvider";
+import { FasieSupportNotice } from "@shared/ui/FasieSupportNotice";
+import { FASIE_PAGE_PATH } from "@shared/constants/fasie";
 
 // TODO: Replace with your actual SVG icon import
 const MenuIcon = () => (
@@ -26,9 +31,10 @@ const MenuIcon = () => (
   </svg>
 );
 
-export const Header = () => {
-  const { user, logout } = useAuth();
+export const Header: React.FC = () => {
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { totalItems } = useCart();
 
   return (
     <HeaderContainer>
@@ -54,13 +60,22 @@ export const Header = () => {
           dimension="m"
           onClick={() => navigate("/about")}
         />
-        <Button
-          label="Личный кабинет"
-          appearence={ButtonAppearence.GHOST}
-          dimension="m"
-          frontIcon={<MenuIcon />}
-          onClick={() => navigate("/dashboard")}
-        />
+        {isAuthenticated ? (
+          <Button
+            label="Личный кабинет"
+            appearence={ButtonAppearence.GHOST}
+            dimension="m"
+            frontIcon={<MenuIcon />}
+            onClick={() => navigate("/dashboard")}
+          />
+        ) : (
+          <Button
+            label="Войти/зарегистрироваться"
+            appearence={ButtonAppearence.GHOST}
+            dimension="m"
+            onClick={() => navigate("/auth")}
+          />
+        )}
         <Button
           label="Корзина"
           appearence={ButtonAppearence.GHOST}
@@ -70,11 +85,11 @@ export const Header = () => {
       </Menu>
       <RightBlock>
         <SupportText>
-          проект создан
-          <br />
-          при поддержке ФСИ
+          <FasieSupportNotice variant="header" />
         </SupportText>
-        <FundLogo src="/fund-logo.png" alt="Фонд содействия инновациям" />
+        <FundLogoLink to={FASIE_PAGE_PATH} aria-label="О фонде содействия инновациям">
+          <FundLogo src="/foundation.svg" alt="Фонд содействия инновациям" />
+        </FundLogoLink>
       </RightBlock>
     </HeaderContainer>
   );

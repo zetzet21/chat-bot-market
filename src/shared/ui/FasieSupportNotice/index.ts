@@ -1,0 +1,1 @@
+export { FasieSupportNotice } from "./FasieSupportNotice";

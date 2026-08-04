@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { CatalogService, BotDetails } from "@app/api/CatalogService";
 import { PageLoader } from "@shared/ui/PageLoader";
 import { Breadcrumbs } from "@shared/ui/Breadcrumbs";
+import { useCart } from "@app/providers/CartProvider";
+import { useNotification } from "@app/providers/NotificationProvider";
 import {
   Container,
   Title,
@@ -12,7 +14,6 @@ import {
   PriceBlock,
   Price,
   OldPrice,
-  BuyButton,
   RatingBlock,
   DetailsGrid,
   DetailsCol,
@@ -20,11 +21,14 @@ import {
   DetailsValue,
 } from "./BotDetailsPage.style";
 import { Button } from "@shared/ui/Button/Button";
+import { ButtonAppearence } from "@shared/ui/Button/button.types";
 
 const BotDetailsPage = React.memo(() => {
   const { id } = useParams<{ id: string }>();
   const [bot, setBot] = useState<BotDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (!id) return;
@@ -35,7 +39,26 @@ const BotDetailsPage = React.memo(() => {
     });
   }, [id]);
 
-  const handleToCart = () => {};
+  const handleAddToCart = () => {
+    if (bot) {
+      // Преобразуем BotDetails в Bot для корзины
+      addToCart({
+        id: bot.id,
+        name: bot.name,
+        description: bot.description,
+        price: bot.price,
+        oldPrice: bot.oldPrice,
+        imageUrl: bot.image,
+        createdAt: bot.createdAt,
+        isActive: bot.isActive,
+        ownerId: bot.ownerId,
+        features: bot.features,
+        integrations: bot.integrations,
+        usage: bot.usage,
+      });
+      showNotification("Бот успешно добавлен в корзину", "success");
+    }
+  };
 
   const details = useMemo(
     () =>
@@ -77,7 +100,12 @@ const BotDetailsPage = React.memo(() => {
           {bot.oldPrice && (
             <OldPrice>{bot.oldPrice.toLocaleString()} ₽</OldPrice>
           )}
-          <Button onClick={() => {}} label="В корзину" />
+          <Button
+            onClick={handleAddToCart}
+            label="В корзину"
+            appearence={ButtonAppearence.PRIMARY}
+            dimension="l"
+          />
         </PriceBlock>
       </InfoBlock>
       <DetailsGrid>

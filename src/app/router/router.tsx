@@ -1,14 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { Layout } from "@widgets/Layout";
 import { PageLoader } from "@shared/ui/PageLoader";
+import { ProtectedRoute } from "@shared/ui/ProtectedRoute";
 
+const AboutPage = lazy(() => import("@pages/AboutPage/AboutPage"));
+const FoundationPage = lazy(() => import("@pages/FoundationPage"));
 const BotDetailsPage = lazy(() => import("@pages/BotDetailsPage"));
 const AuthPage = lazy(() => import("@pages/AuthorizationPage/AuthPage"));
-const HomePage = lazy(() => import("@pages/HomePage/HomePage"));
 const CatalogPage = lazy(() => import("@pages/CatalogPage"));
-// const DashboardPage = lazy(() => import("@pages/DashboardPage"));
-// const NotFoundPage = lazy(() => import("@pages/NotFoundPage"));
+const CartPage = lazy(() => import("@pages/CartPage"));
+const ImplementationPage = lazy(
+  () => import("@pages/ImplementationPage/ImplementationPage")
+);
+const BotAnalyticsPage = lazy(
+  () => import("@pages/BotAnalyticsPage/BotAnalyticsPage")
+);
+const DashboardPage = lazy(() => import("@pages/DashboardPage"));
 
 export const router = createBrowserRouter([
   {
@@ -17,15 +30,17 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Suspense fallback={<PageLoader />}>{<HomePage />}</Suspense>,
+        element: <Navigate to="/about" replace />,
       },
       {
         path: "catalog",
         element: (
-          <Suspense fallback={<PageLoader />}>{<CatalogPage />}</Suspense>
+          <Suspense fallback={<PageLoader />}>
+            <CatalogPage />
+          </Suspense>
         ),
         handle: {
-          crumb: () => "Каталог", // Для хлебных крошек
+          crumb: () => "Каталог",
         },
       },
       {
@@ -40,11 +55,71 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: "dashboard",
+        path: "cart",
         element: (
           <Suspense fallback={<PageLoader />}>
-            {/* <DashboardPage /> */}
+            <CartPage />
           </Suspense>
+        ),
+        handle: {
+          crumb: () => "Корзина",
+        },
+      },
+      {
+        path: "about",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <AboutPage />
+          </Suspense>
+        ),
+        handle: {
+          crumb: () => "О нас",
+        },
+      },
+      {
+        path: "foundation",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <FoundationPage />
+          </Suspense>
+        ),
+        handle: {
+          crumb: () => "Фонд содействия инновациям",
+        },
+      },
+      {
+        path: "implementation",
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<PageLoader />}>
+              <ImplementationPage />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+        handle: {
+          crumb: () => "Внедрение",
+        },
+      },
+      {
+        path: "implementation/:botId",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <BotAnalyticsPage />
+          </Suspense>
+        ),
+        handle: {
+          crumb: () => "Аналитика бота",
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "dashboard",
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<PageLoader />}>
+              <DashboardPage />
+            </Suspense>
+          </ProtectedRoute>
         ),
         handle: {
           crumb: () => "Личный кабинет",

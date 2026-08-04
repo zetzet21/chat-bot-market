@@ -1,4 +1,5 @@
 import { User } from "@app/types/user";
+import { getCookie } from "@shared/utils/cookie";
 
 // Simulate API delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -64,8 +65,17 @@ export const authApi = {
 
   getCurrentUser: async (): Promise<User | null> => {
     await delay(500);
+    const token = getCookie("token");
+    if (!token) {
+      return null;
+    }
     // In a real app, this would validate the session/token and return user data
-    return null;
+    // For now, we'll return a mock user if a token exists
+    return {
+      id: "1",
+      email: "test@example.com",
+      name: "Test User",
+    };
   },
 
   updateProfile: async (userId: string, data: Partial<User>): Promise<User> => {

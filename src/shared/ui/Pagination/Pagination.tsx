@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  PaginationContainer,
-  PaginationButton,
-  PageNumber,
-} from "./Pagination.style";
+import { PaginationContainer, PaginationButton } from "./Pagination.style";
+import { Text } from "@shared/ui/Text/Text";
 
 interface PaginationProps {
   page: number;
@@ -25,7 +22,9 @@ export const Pagination: React.FC<PaginationProps> = ({
       <PaginationButton onClick={prevPage} disabled={!hasPrev || page === 1}>
         Назад
       </PaginationButton>
-      <PageNumber>Страница {page}</PageNumber>
+      <Text dimension="xl" weight="medium">
+        Страница {page}
+      </Text>
       <PaginationButton onClick={nextPage} disabled={!hasNext}>
         Вперёд
       </PaginationButton>

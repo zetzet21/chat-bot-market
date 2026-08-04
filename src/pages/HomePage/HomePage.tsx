@@ -4,7 +4,6 @@ const HomePage = React.memo(function HomePage() {
   return (
     <div
       style={{
-        maxWidth: 600,
         margin: "40px auto",
         padding: 24,
         background: "#fff",

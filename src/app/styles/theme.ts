@@ -11,7 +11,7 @@ export const theme = {
     text: "#1e293b",
     error: "#dc2626",
     // Основные цвета
-    Black: "#211922",
+    Black: "#000000",
     GrayDark: "#3E3E3E",
     Gray38: "#00000061",
     Gray20: "#00000033",
@@ -30,14 +30,46 @@ export const theme = {
     focus: "#93c5fd",
   },
   spacing: {
-    sm: "0.5rem",
-    md: "1rem",
-    lg: "2rem",
+    sm: "8px",
+    md: "16px",
+    lg: "24px",
+    xl: "32px",
   },
   breakpoints: {
     sm: "576px",
     md: "768px",
     lg: "992px",
+  },
+  borderRadius: {
+    sm: "4px",
+    md: "8px",
+    lg: "12px",
+  },
+  typography: {
+    fontWeight: {
+      s: "400",
+      m: "400",
+      l: "400",
+      xl: "400",
+    },
+    lineHeight: {
+      s: "16",
+      m: "25",
+      l: "36",
+      xl: "48",
+    },
+    fontSize: {
+      s: "16px",
+      m: "24px",
+      l: "36px",
+      xl: "48px",
+    },
+  },
+  fontSize: {
+    s: "16px",
+    m: "24px",
+    l: "36px",
+    xl: "48px",
   },
 };
 

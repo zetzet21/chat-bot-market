@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { authApi } from "@app/api/auth";
 import { User } from "@app/types/user";
+import { setCookie, getCookie, deleteCookie } from "@shared/utils/cookie";
 
 interface AuthContextType {
   user: User | null;
@@ -16,6 +17,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (email: string, password: string, name?: string) => Promise<void>;
+  updateProfile: (data: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,8 +35,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(currentUser);
       } catch (e) {
         setUser(null);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     initializeUser();
   }, []);
@@ -45,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const loggedInUser = await authApi.login(email, password);
       setUser(loggedInUser);
-      localStorage.setItem("token", "mock-token"); // В реальном API — сохранять реальный токен
+      setCookie("token", "mock-token", 7); // Store token in a cookie for 7 days
     } catch (e: any) {
       setError(e.message || "Ошибка входа");
       setUser(null);
@@ -59,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await authApi.logout();
       setUser(null);
-      localStorage.removeItem("token");
+      deleteCookie("token");
     } catch (e: any) {
       setError(e.message || "Ошибка выхода");
     }
@@ -72,10 +75,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const registeredUser = await authApi.register(email, password, name);
       setUser(registeredUser);
-      localStorage.setItem("token", "mock-token"); // В реальном API — сохранять реальный токен
+      setCookie("token", "mock-token", 7); // Store token in a cookie for 7 days
     } catch (e: any) {
       setError(e.message || "Ошибка регистрации");
       setUser(null);
+    }
+    setIsLoading(false);
+  };
+
+  const updateProfile = async (data: Partial<User>) => {
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      const updatedUser = await authApi.updateProfile(user.id, data);
+      setUser(updatedUser);
+    } catch (e: any) {
+      setError(e.message || "Ошибка обновления профиля");
     }
     setIsLoading(false);
   };
@@ -90,6 +108,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
+        updateProfile,
       }}
     >
       {children}
